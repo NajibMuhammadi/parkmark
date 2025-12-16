@@ -9,7 +9,7 @@ const menuItems = [
         description:
             "Ett system för att registrera när personer går in och ut från arbetsplatsen.",
         icon: BarChart3,
-        href: "https://insite.serima.se",
+        href: "https://insite.serima.se/realtimestation",
     },
     {
         title: "Park-Mark",
