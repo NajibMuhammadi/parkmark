@@ -2,23 +2,45 @@
 
 import { useState, useEffect } from "react";
 
-// Sample images to simulate the "Rotating Ad" requirement
-const AD_IMAGES = [
-    "https://images.unsplash.com/photo-1556740738-b6a63e27c4df?q=80&w=2000&auto=format&fit=crop&sig=1",
-    "https://images.unsplash.com/photo-1593941707882-a5bba14938c7?q=80&w=2000&auto=format&fit=crop&sig=2",
-    "https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?q=80&w=2000&auto=format&fit=crop&sig=3",
-    "https://images.unsplash.com/photo-1635070041078-e363dbe005cb?q=80&w=2000&auto=format&fit=crop&sig=4",
-    "https://images.unsplash.com/photo-1580273916550-e323be2ae537?q=80&w=2000&auto=format&fit=crop&sig=5",
+// ✅ UPDATED DATA STRUCTURE
+// Now includes Title and Subtitle for every image.
+const AD_SLIDES = [
+    {
+        src: "https://images.unsplash.com/photo-1556740738-b6a63e27c4df?q=80&w=2000&auto=format&fit=crop",
+        title: "Betala Enkelt",
+        subtitle: "Använd Swish eller kort direkt i mobilen för smidiga köp.",
+    },
+    {
+        src: "https://images.unsplash.com/photo-1593941707882-a5bba14938c7?q=80&w=2000&auto=format&fit=crop",
+        title: "Ladda Framtiden",
+        subtitle: "Våra nya snabbladdare är nu installerade och redo.",
+    },
+    {
+        src: "https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?q=80&w=2000&auto=format&fit=crop",
+        title: "Premium Service",
+        subtitle: "Vi tar hand om din bil så att den håller längre.",
+    },
+    {
+        src: "https://images.unsplash.com/photo-1635070041078-e363dbe005cb?q=80&w=2000&auto=format&fit=crop",
+        title: "Helt Digitalt",
+        subtitle: "Inga papperskvitton, ingen väntetid. Allt i appen.",
+    },
+    {
+        src: "https://images.unsplash.com/photo-1580273916550-e323be2ae537?q=80&w=2000&auto=format&fit=crop",
+        title: "Öppet Dygnet Runt",
+        subtitle: "Våra stationer är alltid öppna när du behöver dem.",
+    },
 ];
 
 export default function KioskStation() {
-    const [currentImageIndex, setCurrentImageIndex] = useState(0);
+    const [currentIndex, setCurrentIndex] = useState(0);
     const [qrImage, setQrImage] = useState<string | null>(null);
 
+    // 🔁 Rotation Logic
     useEffect(() => {
         const interval = setInterval(() => {
-            setCurrentImageIndex((prev) => (prev + 1) % AD_IMAGES.length);
-        }, 10000);
+            setCurrentIndex((prev) => (prev + 1) % AD_SLIDES.length);
+        }, 10000); // 10 Seconds
 
         return () => clearInterval(interval);
     }, []);
@@ -33,38 +55,47 @@ export default function KioskStation() {
     }, []);
 
     return (
-        <main className="relative h-screen w-screen overflow-hidden bg-zinc-900 font-sans">
-            {/* ================= BACKGROUND / ADS ================= */}
-            <div className="absolute inset-0 z-0 bg-zinc-800">
-                {AD_IMAGES.map((src, index) => (
+        <main className="relative h-screen w-screen overflow-hidden bg-zinc-900 font-sans text-zinc-900">
+            {/* ================= BACKGROUND / ADS LOOP ================= */}
+            <div className="absolute inset-0 z-0 bg-black">
+                {AD_SLIDES.map((slide, index) => (
                     <div
-                        key={src}
+                        key={slide.src}
                         className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${
-                            index === currentImageIndex
-                                ? "opacity-100"
-                                : "opacity-0"
+                            index === currentIndex
+                                ? "opacity-100 z-10"
+                                : "opacity-0 z-0"
                         }`}
                     >
-                        {/* Dark overlay */}
-                        <div className="absolute inset-0 bg-black/30 z-10" />
+                        {/* Dark overlay to make text readable */}
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-black/30 z-10" />
 
                         {/* The Image */}
                         <img
-                            src={src}
-                            alt="Announcement Background"
+                            src={slide.src}
+                            alt={slide.title}
                             className="h-full w-full object-cover"
-                            // If an image fails to load, this prevents a broken icon
                             onError={(e) => {
                                 e.currentTarget.style.display = "none";
-                                console.error(`Failed to load image: ${src}`);
                             }}
                         />
+
+                        {/* ================= NEW: TITLE & SUBTITLE ================= */}
+                        {/* Placed Bottom Left to balance the Bottom Right QR Card */}
+                        <div className="absolute bottom-16 left-16 z-20 max-w-2xl">
+                            <h1 className="text-6xl font-black text-white uppercase tracking-tight mb-4 drop-shadow-lg text-balance">
+                                {slide.title}
+                            </h1>
+                            <p className="text-2xl text-zinc-100 font-medium leading-relaxed drop-shadow-md text-balance opacity-90">
+                                {slide.subtitle}
+                            </p>
+                        </div>
                     </div>
                 ))}
             </div>
 
             {/* ================= QR CARD ================= */}
-            <div className="absolute z-20 bottom-12 right-12 flex flex-col items-end">
+            <div className="absolute z-30 bottom-12 right-12 flex flex-col items-end">
                 <div className="bg-white/95 backdrop-blur-xl p-6 rounded-3xl shadow-2xl border border-white/50 max-w-sm text-center">
                     <h2 className="text-2xl font-black uppercase tracking-tight mb-2 text-zinc-900">
                         Registrera din bil
