@@ -68,7 +68,7 @@ export default function KioskStation() {
                         }`}
                     >
                         {/* Dark overlay to make text readable */}
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-black/30 z-10" />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-black/30 z-10" />
 
                         {/* The Image */}
                         <img
@@ -82,11 +82,11 @@ export default function KioskStation() {
 
                         {/* ================= NEW: TITLE & SUBTITLE ================= */}
                         {/* Placed Bottom Left to balance the Bottom Right QR Card */}
-                        <div className="absolute bottom-16 left-16 z-20 max-w-2xl">
-                            <h1 className="text-6xl font-black text-white uppercase tracking-tight mb-4 drop-shadow-lg text-balance">
+                        <div className="absolute bottom-12 left-12 z-20 max-w-[55%] pb-4">
+                            <h1 className="text-5xl lg:text-6xl font-black text-white uppercase tracking-tight mb-4 drop-shadow-lg text-balance leading-[0.9]">
                                 {slide.title}
                             </h1>
-                            <p className="text-2xl text-zinc-100 font-medium leading-relaxed drop-shadow-md text-balance opacity-90">
+                            <p className="text-xl lg:text-2xl text-zinc-100 font-medium leading-snug drop-shadow-md text-balance opacity-90">
                                 {slide.subtitle}
                             </p>
                         </div>
@@ -95,42 +95,40 @@ export default function KioskStation() {
             </div>
 
             {/* ================= QR CARD ================= */}
-            <div className="absolute z-30 bottom-12 right-12 flex flex-col items-end">
-                <div className="bg-white/95 backdrop-blur-xl p-6 rounded-3xl shadow-2xl border border-white/50 max-w-sm text-center">
-                    <h2 className="text-2xl font-black uppercase tracking-tight mb-2 text-zinc-900">
+            <div className="absolute z-30 bottom-8 right-8 flex flex-col items-end">
+                <div className="bg-white/95 backdrop-blur-xl p-5 rounded-3xl shadow-2xl border border-white/50 max-w-xs text-center">
+                    <h2 className="text-lg font-black uppercase tracking-tight mb-1 text-zinc-900">
                         Registrera din bil
                     </h2>
 
-                    <p className="text-sm text-zinc-500 mb-6 font-medium leading-tight">
-                        Skanna QR-koden för att registrera din bil
-                        <br />
-                        snabbt och enkelt i mobilen.
+                    <p className="text-xs text-zinc-500 mb-4 font-medium leading-tight">
+                        Skanna för att registrera <br /> snabbt i mobilen.
                     </p>
-
                     {/* QR Code */}
                     <div className="bg-white p-2 rounded-xl border border-zinc-100 shadow-inner inline-block relative">
                         {qrImage ? (
                             <img
                                 src={qrImage}
                                 alt="Scan to go to /stations/scan"
-                                className="size-48 object-contain mix-blend-multiply"
+                                // CHANGE: Reduced size from size-48 to size-32 (approx 128px)
+                                className="size-32 object-contain mix-blend-multiply"
                             />
                         ) : (
-                            <div className="size-48 flex items-center justify-center text-zinc-400 text-sm">
-                                Loading QR…
+                            <div className="size-32 flex items-center justify-center text-zinc-400 text-xs">
+                                Loading...
                             </div>
                         )}
 
-                        {/* Pulse indicator */}
-                        <div className="absolute -top-1 -right-1 size-4 bg-blue-500 rounded-full animate-ping" />
-                        <div className="absolute -top-1 -right-1 size-4 bg-blue-500 rounded-full border-2 border-white" />
+                        {/* Pulse indicator (adjusted size) */}
+                        <div className="absolute -top-1 -right-1 size-3 bg-blue-500 rounded-full animate-ping" />
+                        <div className="absolute -top-1 -right-1 size-3 bg-blue-500 rounded-full border-2 border-white" />
                     </div>
 
                     {/* ================= CONTACT INFO ================= */}
-                    <div className="pt-4 border-t border-zinc-100">
-                        <p className="text-[10px] uppercase tracking-widest text-zinc-400 font-bold">
+                    <div className="pt-3 mt-3 border-t border-zinc-100">
+                        <p className="text-[9px] uppercase tracking-widest text-zinc-400 font-bold">
                             Vill du synas här?{" "}
-                            <span className="text-zinc-800 block mt-1 text-xs">
+                            <span className="text-zinc-800 block mt-0.5 text-[10px]">
                                 info@serima.se
                             </span>
                         </p>
